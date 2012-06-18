@@ -1,0 +1,11 @@
+{ 
+	"name": "twoStep",
+	"version": "0.0.1",
+	"description": "A simple control-flow library for node.JS that makes parallel execution, serial execution, and error handling painless.",
+	"engine": [ "node >=0.2.0" ],
+	"repository": {
+		"type" : "git",
+		"url" : "http://github.com/Nordberg/twoStep.git"
+	},
+	"main": "lib/twoStep"
+}
