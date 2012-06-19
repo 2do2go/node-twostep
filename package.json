@@ -7,8 +7,9 @@
 		"type" : "git",
 		"url" : "http://github.com/Nordberg/twoStep.git"
 	},
-	"dependencies" : {
+	"devDependencies" : {
 		"jasmine-node": "1.0.21"
 	},
+
 	"main": "lib/twoStep"
 }
