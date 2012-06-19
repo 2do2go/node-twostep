@@ -3,6 +3,8 @@ TwoStep
 A simple control-flow library for node.JS that makes parallel execution, 
 serial execution, and error handling painless. Based on gist https://gist.github.com/1524578
 
+In different to that gist was added test coverage, try ... catch blocks for all steps and some usefull wrappers.
+
 Installation
 -----------
 
