@@ -67,7 +67,7 @@ Usage
     var FS = require('fs');
     
     TwoStep(
-      TwoStep.simple(function() {
+        TwoStep.simple(function() {
     		this.pass(__filename + ".bak");
     		FS.readFile(__filename, 'utf8', this.slot());
     	}),
@@ -104,7 +104,32 @@ Usage
     			merged[name] = contents[i].substr(0, 80);
     		});
     		console.log(merged);
-    	})
+    	}),
+        TwoStep.simple(function(err) {
+		    if (err) {
+			    console.log('Do something to handle error');
+		    }
+	    })
     );
+    
+Wrapper TwoStep.throwIfError free you of all time writing
+
+     if (err) throw err;
+     
+All steps throwIfError will be skipped. Error just will be passed through the steps.
+To handle it you can use 
+
+    TwoStep.simple(function(err) {}) 
+    
+or something other function, that get error in first parameter.
+It's very usefull for common mechanism of error handling.
         
-      
+Test
+------
+For test installation just run:
+
+    npm install -g jasmine-node
+    
+For use test just run:
+
+    jasmine-node spec/
