@@ -1,15 +1,17 @@
 { 
-	"name": "twoStep",
-	"version": "0.0.1",
+	"name": "twostep",
+	"version": "0.2.0",
 	"description": "A simple control-flow library for node.JS that makes parallel execution, serial execution, and error handling painless.",
 	"engine": [ "node >=0.2.0" ],
 	"repository": {
 		"type" : "git",
-		"url" : "http://github.com/Nordberg/twoStep.git"
+		"url" : "http://github.com/Nordberg/node-twostep.git"
 	},
 	"devDependencies" : {
 		"jasmine-node": "1.0.21"
 	},
-
+	"scripts": {
+		"test": "./node_modules/jasmine-node/bin/jasmine-node ./spec/"
+	},
 	"main": "lib/twoStep"
 }

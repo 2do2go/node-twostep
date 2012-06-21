@@ -2,18 +2,16 @@
 
 
 var Step = require('../lib/twoStep'),
-	fs = require('fs');
+	fs = require('fs'),
+	helpers = require('./helpers');
 
-function makeFilePath(file) {
-	return __dirname + '/' + file;
-}
 describe('group test', function() {
 	it('should check group', function(done) {
 		var files = fs.readdirSync(__dirname);
 		var filesContents = [];
 		files.forEach(function(file) {
-			if (fs.statSync(makeFilePath(file)).isFile()) {
-				filesContents.push(fs.readFileSync(makeFilePath(file), 'utf8'));
+			if (fs.statSync(helpers.makeFilePath(file)).isFile()) {
+				filesContents.push(fs.readFileSync(helpers.makeFilePath(file), 'utf8'));
 			}
 		});
 		Step(
@@ -27,7 +25,7 @@ describe('group test', function() {
 
 				var group = this.makeGroup();
 				_files.forEach(function(file) {
-					fs.stat(makeFilePath(file), group.slot());
+					fs.stat(helpers.makeFilePath(file), group.slot());
 				});
 			}),
 			Step.throwIfError(function(err, _files, _stats) {
@@ -39,7 +37,7 @@ describe('group test', function() {
 				var group = this.makeGroup();
 				_files.forEach(function(file, i) {
 					if (_stats[i].isFile()) {
-						fs.readFile(makeFilePath(file), 'utf8', group.slot());
+						fs.readFile(helpers.makeFilePath(file), 'utf8', group.slot());
 					}
 				});
 			}),
