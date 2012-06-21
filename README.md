@@ -126,10 +126,10 @@ It's very usefull for common mechanism of error handling.
         
 Test
 ------
-For test installation just run:
+In project folder just run:
 
-    npm install -g jasmine-node
+    npm install
     
-For use test just run:
+After installtion run:
 
-    jasmine-node spec/
+    npm test
