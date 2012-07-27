@@ -3,5 +3,5 @@ var makeFilePath = function(file) {
 };
 
 module.exports = {
-	makeFilePath: makeFilePath	
+	makeFilePath: makeFilePath
 };
