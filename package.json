@@ -5,7 +5,7 @@
 	"engine": [ "node >=0.2.0" ],
 	"repository": {
 		"type" : "git",
-		"url" : "http://github.com/Nordberg/node-twostep.git"
+		"url" : "https://github.com/2do2go/node-twostep"
 	},
 	"devDependencies" : {
 		"jasmine-node": "1.0.21"
