@@ -26,4 +26,21 @@ describe('simple callback usage', function() {
 			}
 		);
 	});
+
+	it('throwing error from the last step', function(done) {
+		var error = new Error('from the last step');
+		try {
+			Steppy(
+				function() {
+					this.pass(null);
+				},
+				function(err) {
+					throw(error);
+				}
+			);
+		} catch(e) {
+			expect(e).toBe(error);
+			done();
+		}
+	});
 });
