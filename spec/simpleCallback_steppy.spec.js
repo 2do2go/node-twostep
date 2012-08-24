@@ -7,22 +7,22 @@ var Steppy = require('../lib/twoStep').Steppy,
 
 describe('simple callback usage', function() {
 	it('calling steppy with less than two steps', function() {
-		try {
-			Steppy();
-			throw new Error('should not be here');
-		} catch (e) {
-			expect(e).toBeTruthy();
-		}
+		//should do nothing
+		Steppy();
 
+		var i = 0;
+		Steppy(function() {
+			i = 1;
+		});
+		expect(i).toBe(1);
+
+		var error = new Error();
 		try {
 			Steppy(
-				function() {
-					fs.readFile(__filename, 'utf8', this.slot());
-				}
+				function() {throw error;}
 			);
-			throw new Error('should not be here');
-		} catch (e) {
-			expect(e).toBeTruthy();
+		} catch(e) {
+			expect(e).toBe(error);
 		}
 	}),
 
