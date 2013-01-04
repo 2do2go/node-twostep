@@ -7,8 +7,12 @@ var Steppy = require('../lib/twoStep').Steppy,
 
 describe('simple callback usage', function() {
 	it('calling steppy with less than two steps', function() {
-		//should do nothing
-		Steppy();
+		//can't call without a single step
+		try {
+			Steppy();
+		} catch(e) {
+			expect(e).toBeTruthy();
+		}
 
 		var i = 0;
 		Steppy(function() {
