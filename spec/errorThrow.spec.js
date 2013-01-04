@@ -22,9 +22,6 @@ describe('simple callback usage', function() {
 			}),
 			Step.simple(function(err) {
 				expect(err).toEqual(error);
-			}),
-			Step.simple(function(err) {
-				expect(err).toEqual(null);
 			})
 		);
 	})

@@ -8,11 +8,11 @@ describe('Break the flow if no arguments to next step will be passed', function(
 		var selfText = fs.readFileSync(__filename, 'utf8');
 		Step(
 			Step.simple(function() {
+				asyncSpecWait();
 				this.pass(__filename);
 			}),
 			Step.throwIfError(function(err, fileName) {
 				fs.readFile(__filename, 'utf8', this.slot());
-				asyncSpecWait();
 			}),
 			Step.throwIfError(function(err, data) {
 				asyncSpecDone();

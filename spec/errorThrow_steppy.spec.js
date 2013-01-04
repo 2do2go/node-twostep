@@ -7,7 +7,7 @@ var Steppy = require('../lib/twoStep').Steppy,
 	error = new Error('Steppy error');
 
 describe('simple callback usage', function() {
-	it('should throw error and catch it in last callback', function(done) {
+	it('should throw error and catch it in last callback', function() {
 		Steppy(
 			function() {
 				throw error;
@@ -22,25 +22,20 @@ describe('simple callback usage', function() {
 			},
 			function(err) {
 				expect(err).toEqual(error);
-				done();
 			}
 		);
 	});
 
-	it('throwing error from the last step', function(done) {
+	it('throwing error from the last step', function() {
 		var error = new Error('from the last step');
 		try {
 			Steppy(
-				function() {
-					this.pass(null);
-				},
 				function(err) {
 					throw(error);
 				}
 			);
 		} catch(e) {
 			expect(e).toBe(error);
-			done();
 		}
 	});
 });
