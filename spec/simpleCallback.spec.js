@@ -1,7 +1,7 @@
 'use strict';
 
 
-var Step = require('../lib/twoStep'),
+var Step = require('../lib/twoStep').Step,
 	fs = require('fs'),
 	selfText = fs.readFileSync(__filename, 'utf8');
 

@@ -1,5 +1,5 @@
 'use strict';
-var Step = require('../lib/twoStep');
+var Step = require('../lib/twoStep').Step;
 
 describe('Check that all callbacks are async', function() {
 	it('should execute steps with sync callbacks like async', function(done) {

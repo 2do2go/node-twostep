@@ -1,5 +1,5 @@
 'use strict';
-var Step = require('../lib/twoStep'),
+var Step = require('../lib/twoStep').Step,
 	fs = require('fs'),
 	helpers = require('./helpers');
 
