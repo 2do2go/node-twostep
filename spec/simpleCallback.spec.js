@@ -1,55 +1,52 @@
 'use strict';
 
-
 var Step = require('../lib/twoStep').Step,
+	expect = require('expect.js'),
 	fs = require('fs'),
 	selfText = fs.readFileSync(__filename, 'utf8');
 
 describe('simple callback usage', function() {
-	it('should compare sync and async result of file reading', function() {
+
+	it('should compare sync and async result of file reading', function(done) {
 		Step(
 			function() {
 				fs.readFile(__filename, 'utf8', this.slot());
-				asyncSpecWait();
 			},
 			function(err, text) {
-				asyncSpecDone();
-				expect(text).toEqual(selfText);
+				expect(text).to.be(selfText);
+				done();
 			}
 		);
-	}),
-	it('should do same that previous, using wraps', function() {
+	});
+
+	it('should do same that previous, using wraps', function(done) {
 		Step(
 			Step.simple(function() {
 				fs.readFile(__filename, 'utf8', this.slot());
-				asyncSpecWait();
 			}),
 			Step.throwIfError(function(err, text) {
-				asyncSpecDone();
-				expect(text).toEqual(selfText);
+				expect(text).to.be(selfText);
+				this.pass(null);
 			}),
-			Step.simple(function(err) {
-				expect(err).toEqual(null);
-			})
+			done
 		);
-	}),
-	it('should check the pass,using uppercased text and wraps', function() {
+	});
+
+	it('should check the pass,using uppercased text and wraps', function(done) {
 		Step(
 			Step.simple(function() {
 				fs.readFile(__filename, 'utf8', this.slot());
-				asyncSpecWait();
 			}),
 			Step.throwIfError(function(err, text) {
-				asyncSpecDone();
-				expect(text).toEqual(selfText);
-				this.pass(text.toUpperCase())
+				expect(text).to.be(selfText);
+				this.pass(text.toUpperCase());
 			}),
 			Step.throwIfError(function(err, uppercasedText) {
-				expect(uppercasedText).toEqual(selfText.toUpperCase());
+				expect(uppercasedText).to.be(selfText.toUpperCase());
+				this.pass(null);
 			}),
-			Step.simple(function(err) {
-				expect(err).toEqual(null);
-			})
+			done
 		);
-	})
+	});
+
 });

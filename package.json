@@ -8,10 +8,11 @@
 		"url" : "https://github.com/2do2go/node-twostep"
 	},
 	"devDependencies" : {
-		"jasmine-node": "1.0.21"
+		"mocha": "1.8.1",
+		"expect.js": "0.2.0"
 	},
 	"scripts": {
-		"test": "./node_modules/jasmine-node/bin/jasmine-node ./spec/"
+		"test": "./node_modules/mocha/bin/mocha ./spec/*.spec.js"
 	},
 	"main": "lib/twoStep"
 }

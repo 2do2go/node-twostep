@@ -1,11 +1,12 @@
 'use strict';
 
-
 var Step = require('../lib/twoStep').Step,
+	expect = require('expect.js'),
 	fs = require('fs'),
 	helpers = require('./helpers');
 
 describe('group test', function() {
+
 	it('should check group', function(done) {
 		var files = fs.readdirSync(__dirname);
 		var filesContents = [];
@@ -14,13 +15,12 @@ describe('group test', function() {
 				filesContents.push(fs.readFileSync(helpers.makeFilePath(file), 'utf8'));
 			}
 		});
+
 		Step(
 			Step.simple(function() {
 				fs.readdir(__dirname, this.slot());
 			}),
 			Step.throwIfError(function(err, _files) {
-				done();
-
 				this.pass(_files);
 
 				var group = this.makeGroup();
@@ -29,8 +29,7 @@ describe('group test', function() {
 				});
 			}),
 			Step.throwIfError(function(err, _files, _stats) {
-				done();
-				expect(_stats.length).toEqual(_files.length);
+				expect(_stats.length).to.be(_files.length);
 				this.pass(_files.filter(function(file, i) {
 					return _stats[i].isFile();
 				}));
@@ -42,16 +41,15 @@ describe('group test', function() {
 				});
 			}),
 			Step.throwIfError(function(err, _files, _filesContents) {
-				done();
-				expect(_filesContents.length).toEqual(filesContents.length);
-				expect(_files.length).toEqual(_filesContents.length);
+				expect(_filesContents.length).to.be(filesContents.length);
+				expect(_files.length).to.be(_filesContents.length);
 				for (var i = 0, l = _files.length; i < l; i++) {
-					expect(_filesContents[i]).toEqual(filesContents[i]);
+					expect(_filesContents[i]).to.be(filesContents[i]);
 				}
+				this.pass(null);
 			}),
-			Step.simple(function(err) {
-				expect(err).toEqual(null);
-			})
+			done
 		);
-	})
+	});
+
 });

@@ -1,51 +1,48 @@
 'use strict';
 
-
 var Step = require('../lib/twoStep').Step,
+	expect = require('expect.js'),
 	fs = require('fs'),
 	selfText = fs.readFileSync(__filename, 'utf8'),
 	etcFileName = '/etc/passwd',
 	etcText = fs.readFileSync(etcFileName, 'utf8');
 
 describe('parallel call usage', function() {
-	it('should execute parallel and pass values to correct slots', function() {
+
+	it('should execute parallel and pass values to correct slots', function(done) {
 		Step(
 			Step.simple(function() {
 				fs.readFile(__filename, 'utf8', this.slot());
 				fs.readFile(etcFileName, 'utf8', this.slot());
-				asyncSpecWait();
 			}),
 			Step.throwIfError(function(err, _selfText, _etcText) {
-				asyncSpecDone();
-				expect(_selfText).toEqual(selfText);
-				expect(_etcText).toEqual(etcText);
+				expect(_selfText).to.be(selfText);
+				expect(_etcText).to.be(etcText);
+				this.pass(null);
 			}),
-			Step.simple(function(err) {
-				expect(err).toEqual(null);
-			})
+			done
 		);
-	}),
-	it('should pass 2 parameters using this.pass', function() {
+	});
+
+	it('should pass 2 parameters using this.pass', function(done) {
 		var firstExpectString = 'one',
 			secondExpectString = 'two';
 		Step(
 			Step.simple(function() {
 				fs.readFile(__filename, 'utf8', this.slot());
 				this.pass(firstExpectString, secondExpectString);
-				asyncSpecWait();
 			}),
 			Step.throwIfError(function(err, _selfText, _first, _second) {
-				asyncSpecDone();
-				expect(_selfText).toEqual(selfText);
-				expect(_first).toEqual(firstExpectString);
-				expect(_second).toEqual(secondExpectString);
+				expect(_selfText).to.be(selfText);
+				expect(_first).to.be(firstExpectString);
+				expect(_second).to.be(secondExpectString);
+				this.pass(null);
 			}),
-			Step.simple(function(err) {
-				expect(err).toEqual(null);
-			})
+			done
 		);
-	}),
-	it('same that previous but parameters order changed', function() {
+	});
+
+	it('same that previous but parameters order changed', function(done) {
 		var firstExpectString = 'one',
 			secondExpectString = 'two';
 		Step(
@@ -53,17 +50,15 @@ describe('parallel call usage', function() {
 				this.pass(firstExpectString);
 				fs.readFile(__filename, 'utf8', this.slot());
 				this.pass(secondExpectString);
-				asyncSpecWait();
 			}),
 			Step.throwIfError(function(err, _first, _selfText, _second) {
-				asyncSpecDone();
-				expect(_selfText).toEqual(selfText);
-				expect(_first).toEqual(firstExpectString);
-				expect(_second).toEqual(secondExpectString);
+				expect(_selfText).to.be(selfText);
+				expect(_first).to.be(firstExpectString);
+				expect(_second).to.be(secondExpectString);
+				this.pass(null);
 			}),
-			Step.simple(function(err) {
-				expect(err).toEqual(null);
-			})
+			done
 		);
-	})
+	});
+
 });

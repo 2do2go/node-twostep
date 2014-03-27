@@ -1,7 +1,10 @@
 'use strict';
-var Step = require('../lib/twoStep').Step;
+
+var Step = require('../lib/twoStep').Step,
+	expect = require('expect.js');
 
 describe('Check that all callbacks are async', function() {
+
 	it('should execute steps with sync callbacks like async', function(done) {
 		var objectWithSyncMethods = {},
 			checkString = 'check',
@@ -18,16 +21,14 @@ describe('Check that all callbacks are async', function() {
 				}
 			}),
 			Step.throwIfError(function(err, checkStrings) {
-				done();
-				expect(checkStrings.length).toEqual(checkStringsCount);
+				expect(checkStrings.length).to.equal(checkStringsCount);
 				for (var i = 0; i < checkStringsCount; i++) {
-					expect(checkStrings[i]).toEqual(checkString + i);
+					expect(checkStrings[i]).to.equal(checkString + i);
 				}
+				this.pass(null);
 			}),
-			Step.simple(function(err) {
-				//this step should not be executed
-				expect(0).toEqual(1);
-			})
-		)
-	})
+			done
+		);
+	});
+
 });

@@ -1,4 +1,7 @@
+'use strict';
+
 var Step = require('../lib/twoStep').Step,
+	expect = require('expect.js'),
 	fs = require('fs');
 
 var myBuiltinFn = Step.fn(
@@ -11,12 +14,13 @@ var myBuiltinFn = Step.fn(
 );
 
 describe('Step built-in function', function() {
-	it('should check text', function() {
-		asyncSpecWait();
+
+	it('should check text', function(done) {
 		var selfText = fs.readFileSync(__filename, 'utf8');
 		myBuiltinFn(__filename, function(err, upperedText) {
-			asyncSpecDone();
-			expect(selfText.toUpperCase()).toEqual(upperedText);
+			expect(selfText.toUpperCase()).to.be(upperedText);
+			done();
 		});
-	})
+	});
+
 });

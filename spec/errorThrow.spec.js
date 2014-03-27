@@ -3,17 +3,19 @@
 
 var Step = require('../lib/twoStep').Step,
 	fs = require('fs'),
+	expect = require('expect.js'),
 	selfText = fs.readFileSync(__filename, 'utf8'),
 	error = new Error('Step error');
 
 describe('simple callback usage', function() {
-	it('should throw error and catch it in last callback', function() {
+
+	it('should throw error and catch it in last callback', function(done) {
 		Step(
 			Step.simple(function() {
 				throw error;
 			}),
 			Step.simple(function(err) {
-				expect(err).toEqual(error);
+				expect(err).to.be(error);
 				throw err;
 			}),
 			Step.throwIfError(function(err, text) {
@@ -21,8 +23,10 @@ describe('simple callback usage', function() {
 				expect(1).toEqual(0);
 			}),
 			Step.simple(function(err) {
-				expect(err).toEqual(error);
+				expect(err).to.be(error);
+				done();
 			})
 		);
-	})
+	});
+
 });
