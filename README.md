@@ -15,10 +15,10 @@ Usage
 
   All callbacks are executing in theirs steps.
   
-    var TwoStep = require('twostep');
+    var TwoStep = require('twostep').Step;
     var FS = require('fs');
  
-    TwoStep(
+    Step(
       function one() {
         this.pass(__filename + ".bak");
         FS.readFile(__filename, 'utf8', this.slot());
@@ -63,30 +63,30 @@ Usage
   
   This can be some simple if we will use wrappers.
   
-    var TwoStep = require('twostep');
+    var Step = require('twostep').Step;
     var FS = require('fs');
     
-    TwoStep(
-        TwoStep.simple(function() {
+    Step(
+        Step.simple(function() {
     		this.pass(__filename + ".bak");
     		FS.readFile(__filename, 'utf8', this.slot());
     	}),
-    	TwoStep.throwIfError(function(err, target, contents) {
+    	Step.throwIfError(function(err, target, contents) {
     		this.pass(target);
     		FS.writeFile(target, contents, this.slot())
     	}),
-    	TwoStep.throwIfError(function(err, target) {
+    	Step.throwIfError(function(err, target) {
     		console.log("%s written to successfully", target);
     		FS.readdir(__dirname, this.slot());
     	}),
-    	TwoStep.throwIfError(function(err, fileNames) {
+    	Step.throwIfError(function(err, fileNames) {
     		this.pass(fileNames);
     		var group = this.makeGroup();
     		fileNames.forEach(function(filename) {
     			FS.stat(filename, group.slot());
     		});
     	}),
-    	TwoStep.throwIfError(function(err, fileNames, stats) {
+    	Step.throwIfError(function(err, fileNames, stats) {
     		this.pass(fileNames.filter(function(name, i) {
     			return stats[i].isFile();
     		}));
@@ -98,28 +98,28 @@ Usage
     			}
     		});
     	}),
-    	TwoStep.throwIfError(function(err, fileNames, contents) {
+    	Step.throwIfError(function(err, fileNames, contents) {
     		var merged = {};
     		fileNames.forEach(function (name, i) {
     			merged[name] = contents[i].substr(0, 80);
     		});
     		console.log(merged);
     	}),
-        TwoStep.simple(function(err) {
+        Step.simple(function(err) {
 		    if (err) {
 			    console.log('Do something to handle error');
 		    }
 	    })
     );
     
-Wrapper TwoStep.throwIfError free you of all time writing
+Wrapper Step.throwIfError free you of all time writing
 
      if (err) throw err;
      
 All steps throwIfError will be skipped. Error just will be passed through the steps.
 To handle it you can use 
 
-    TwoStep.simple(function(err) {}) 
+    Step.simple(function(err) {}) 
     
 or something other function, that get error in first parameter.
 It's very usefull for common mechanism of error handling.

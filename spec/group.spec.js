@@ -54,4 +54,21 @@ describe('group test', function() {
 		);
 	});
 
+	it('Check that group returns empty array if it wasnt called', function(done) {
+		Step(
+			function() {
+				// create group
+				// and we wont call slot! It's madness!!
+				var group = this.makeGroup();
+			},
+			function(err, data) {
+				expect(data).to.be.ok();
+				expect(data).to.be.an('array');
+				expect(data.length).to.be(0);
+				this.pass(null);
+			},
+			done
+		);
+	});
+
 });
