@@ -13,6 +13,8 @@ describe('group test', function() {
 		files.forEach(function(file) {
 			if (fs.statSync(helpers.makeFilePath(file)).isFile()) {
 				filesContents.push(fs.readFileSync(helpers.makeFilePath(file), 'utf8'));
+			} else {
+				filesContents.push('123');
 			}
 		});
 
@@ -30,21 +32,21 @@ describe('group test', function() {
 			}),
 			Step.throwIfError(function(err, _files, _stats) {
 				expect(_stats.length).to.be(_files.length);
-				this.pass(_files.filter(function(file, i) {
-					return _stats[i].isFile();
-				}));
+				this.pass(_files);
 				var group = this.makeGroup();
 				_files.forEach(function(file, i) {
 					if (_stats[i].isFile()) {
 						fs.readFile(helpers.makeFilePath(file), 'utf8', group.slot());
+					} else {
+						group.pass('123');
 					}
 				});
 			}),
-			Step.throwIfError(function(err, _files, _filesContents) {
-				expect(_filesContents.length).to.be(filesContents.length);
-				expect(_files.length).to.be(_filesContents.length);
-				for (var i = 0, l = _files.length; i < l; i++) {
-					expect(_filesContents[i]).to.be(filesContents[i]);
+			Step.throwIfError(function(err, files, contents) {
+				expect(contents.length).to.be(filesContents.length);
+				expect(files.length).to.be(contents.length);
+				for (var i = 0, l = files.length; i < l; i++) {
+					expect(contents[i]).to.be(filesContents[i]);
 				}
 				this.pass(null);
 			}),
