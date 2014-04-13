@@ -1,18 +1,22 @@
 {
 	"name": "twostep",
-	"version": "0.3.6",
-	"description": "A simple control-flow library for node.JS that makes parallel execution, serial execution, and error handling painless.",
-	"engine": [ "node >=0.2.0" ],
+	"description": "Simple control-flow library for node.js that makes parallel execution, serial execution and error handling painless.",
+	"version": "0.3.7",
+	"author": "2do2go team <dev.2do2go@gmail.com>",
+	"license": "MIT",
 	"repository": {
 		"type" : "git",
 		"url" : "https://github.com/2do2go/node-twostep"
 	},
+	"keywords": [
+		"control", "flow", "step", "async", "sync"
+	],
 	"devDependencies" : {
 		"mocha": "1.8.1",
 		"expect.js": "0.2.0"
 	},
 	"scripts": {
-		"test": "./node_modules/mocha/bin/mocha ./spec/*.spec.js"
+		"test": "mocha spec --reporter spec"
 	},
 	"main": "lib/twoStep"
 }

@@ -119,4 +119,9 @@ npm test
 ```
 
 
+## License
+
+MIT
+
+
 [step]: https://github.com/creationix/step
