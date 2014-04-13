@@ -1,0 +1,5 @@
+.npmignore
+.gitignore
+test
+coverage
+LICENSE.txt
