@@ -118,6 +118,14 @@ after installtion run
 npm test
 ```
 
+for run tests and generate coverage report run
+
+```sh
+npm run testAndCover
+```
+
+detailed coverage report will be accessible at ./coverage/index.html
+
 
 ## License
 
