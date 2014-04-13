@@ -5,11 +5,12 @@ var Step = require('../lib/twoStep').Step,
 	fs = require('fs'),
 	expect = require('expect.js'),
 	selfText = fs.readFileSync(__filename, 'utf8'),
-	error = new Error('Step error');
+	error = new Error('Step error'),
+	secondError = new Error('Step second error');
 
-describe('simple callback usage', function() {
+describe('Step error handling', function() {
 
-	it('should throw error and catch it in last callback', function(done) {
+	it('thrown error should be catched at last callback', function(done) {
 		Step(
 			Step.simple(function() {
 				throw error;
@@ -26,6 +27,35 @@ describe('simple callback usage', function() {
 				expect(err).to.be(error);
 				done();
 			})
+		);
+	});
+
+	it('error passed to callback should be passed to next step', function(done) {
+		Step(
+			function() {
+				var callback = this.slot();
+				callback(error);
+			},
+			function(err) {
+				expect(err).to.be(error);
+				done();
+			}
+		);
+	});
+
+	it('if two errors passed to callbacks first of them ' +
+		'will be passed to next step', function(done) {
+		Step(
+			function() {
+				var callback = this.slot();
+				callback(error);
+				var secondCallback = this.slot();
+				callback(secondError);
+			},
+			function(err) {
+				expect(err).to.be(error);
+				done();
+			}
 		);
 	});
 
