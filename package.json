@@ -16,7 +16,7 @@
 		"expect.js": "0.2.0"
 	},
 	"scripts": {
-		"test": "mocha spec --reporter spec"
+		"test": "mocha test --reporter spec"
 	},
 	"main": "lib/twoStep"
 }

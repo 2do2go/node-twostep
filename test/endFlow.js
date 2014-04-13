@@ -1,8 +1,7 @@
 'use strict';
 var Step = require('../lib/twoStep').Step,
 	fs = require('fs'),
-	expect = require('expect.js'),
-	helpers = require('./helpers');
+	expect = require('expect.js');
 
 describe('Break the flow if no arguments to next step will be passed', function() {
 
