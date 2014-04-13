@@ -15,7 +15,7 @@ Features
 last step) using Steppy (see details below)
 * ability to pass the arbitrary values between steps (using `this.pass()`)
 * pure js code (no dependencies, < 200 lines of code)
-* good test coverage
+* full test coverage ([100%](https://rawgit.com/2do2go/node-twostep/master/coverage/index.html))
 * super battle-tested (we ubiquitously use twostep in a big project
 (50 000+ lines of code))
 
