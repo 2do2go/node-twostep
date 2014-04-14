@@ -12,7 +12,7 @@ Features
 * serial and parallel (with results grouping support) execution
 * simple error handling
 * simplified error handling for common use case (when error handled at the
-last step) using Steppy (see details below)
+last step)
 * ability to pass the arbitrary values between steps (using `this.pass()`)
 * pure js code (no dependencies, < 200 lines of code)
 * full test coverage ([100%](https://rawgit.com/2do2go/node-twostep/master/coverage/index.html))
@@ -32,12 +32,7 @@ npm install twostep
 All steps (functions) passed to the `Step` will be executed in series. Inside
 each step `this.slot()` for wating of async call, `this.pass()` for
 passing value to the next step or `this.makeGroup()` for creating group (for
- calling `slot()` or `pass()` for the group and having results
- grouped to array) can be called. If error is occured inside step it will be
- passed to the next step as first argument. First argument of the step is
- always an error (falsy if no error), subsequent arguments - results of calls
- accepted by `this.pass()`, `this.slot()` or `this.makeGroup()` in the order
-they were called at previous step.
+having results grouped to array) can be called.
 
 ```js
 
@@ -93,15 +88,81 @@ Step(
 
 In the example above we did `if (err) throw err;` at the start of every step to
 pass the error (if it exists) to the next step for handle the error at the last
-step. We can simply avoid writing this annoying line using `Steppy` (can be
-imported as `var Steppy = require('twostep').Steppy`) instead of
-`Step`. `Steppy` automatically wraps every single step with error check and
-calls the last step if error occurs.
+step. We can avoid writing this annoying line using `Steppy`. With `Steppy`
+example described above transforms to
 
-Created group has same api as `this` but if `pass()` or `slot()` was
-not called for the group empty array will be passed to the next step as group result.
-If `this.pass()`, `this.slot()` or `this.makeGroup()` will not be called then
-next step will never be called.
+```js
+
+var Steppy = require('twostep').Steppy,
+	fs = require('fs');
+
+Steppy(
+	function() {
+		this.pass(__filename + '.bak');
+		fs.readFile(__filename, 'utf8', this.slot());
+	},
+	function(err, bakFile, content) {
+		this.pass(bakFile);
+		fs.readdir(__dirname, this.slot());
+		fs.writeFile(bakFile, content, this.slot())
+	},
+	function(err, bakFile, dirContent) {
+		console.log('%s successfully written', bakFile);
+		this.pass(dirContent);
+		var group = this.makeGroup();
+		dirContent.forEach(function(name) {
+			fs.stat(name, group.slot());
+		});
+	},
+	function(err, dirContent, stats) {
+		var fileNames = dirContent.filter(function(name, i) {
+			return stats[i].isFile();
+		});
+		console.log('files in dir: %s', fileNames);
+	},
+	function(err) {
+		console.log('Error occured: ', err.stack || err);
+		process.exit(1);
+	}
+);
+
+```
+
+
+## API
+
+### Methods which can be called inside each step
+
+#### this.slot()
+
+Reserves one slot at the current step. Next step will be called when
+all reserved slots of current step will be filled with data or the error occurs.
+Returns callback `function(err, data)` to fill the slot with data.
+
+#### this.pass(value1, value2, valueN...)
+
+Passes one or several synchronous values to the next step.
+
+#### this.makeGroup()
+
+Reserves slot, creates and returns a group, all results of which will be passed
+into the reserved slot as a single array. `pass`, `slot` methods can be called
+for created group. If group methods were not called empty array will be passed
+into reserved slot.
+
+### Step(step1, step2, stepN...)
+
+Steps container accepts functions and executes them in series. If error is
+occured inside step it will be passed to the next step as first argument. First
+argument of the step is always an error (falsy if no error), subsequent
+arguments - values passed to the reserved slots (created via `this.pass()`,
+`this.slot()` or `this.makeGroup()`) of previous step in the order the slots
+were reserved.
+
+### Steppy(step1, step2, stepN...)
+
+Same steps container as `Step` but it also automatically wraps every single step
+with error check and calls the last step if error occurs.
 
 
 ## Tests
@@ -124,7 +185,7 @@ for run tests and generate coverage report run
 npm run testAndCover
 ```
 
-detailed coverage report will be accessible at ./coverage/index.html
+detailed coverage report will be saved at ./coverage/index.html
 
 
 ## License
