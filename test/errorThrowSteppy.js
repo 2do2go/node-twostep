@@ -7,7 +7,7 @@ var Steppy = require('../lib/twoStep').Steppy,
 	selfText = fs.readFileSync(__filename, 'utf8'),
 	error = new Error('Steppy error');
 
-describe('simple callback usage', function() {
+describe('Steppy error handling', function() {
 
 	it('should throw error and catch it in last callback', function(done) {
 		Steppy(
@@ -29,7 +29,7 @@ describe('simple callback usage', function() {
 		);
 	});
 
-	it('throwing error from the last step', function(done) {
+	it('throwing error from the last step catch it outside', function(done) {
 		var error = new Error('from the last step');
 		try {
 			Steppy(

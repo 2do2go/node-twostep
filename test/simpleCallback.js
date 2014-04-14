@@ -5,7 +5,7 @@ var Step = require('../lib/twoStep').Step,
 	fs = require('fs'),
 	selfText = fs.readFileSync(__filename, 'utf8');
 
-describe('simple callback usage', function() {
+describe('Step simple callback usage', function() {
 
 	it('should compare sync and async result of file reading', function(done) {
 		Step(
@@ -32,7 +32,7 @@ describe('simple callback usage', function() {
 		);
 	});
 
-	it('should check the pass,using uppercased text and wraps', function(done) {
+	it('should check the pass, using uppercased text and wraps', function(done) {
 		Step(
 			Step.simple(function() {
 				fs.readFile(__filename, 'utf8', this.slot());

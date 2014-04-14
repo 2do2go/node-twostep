@@ -5,7 +5,7 @@ var Steppy = require('../lib/twoStep').Steppy,
 	fs = require('fs'),
 	selfText = fs.readFileSync(__filename, 'utf8');
 
-describe('simple callback usage', function() {
+describe('Steppy simple callback usage', function() {
 
 	it('calling steppy with less than two steps', function(done) {
 		//can't call without a single step
@@ -33,7 +33,7 @@ describe('simple callback usage', function() {
 		done();
 	}),
 
-	it('should check the pass,using uppercased text and wraps', function(done) {
+	it('should check the pass, using uppercased text and wraps', function(done) {
 		Steppy(
 			function() {
 				fs.readFile(__filename, 'utf8', this.slot());
@@ -46,7 +46,7 @@ describe('simple callback usage', function() {
 				expect(uppercasedText).to.be(selfText.toUpperCase());
 				this.pass(null);
 			},
-			done //in case of error
+			done
 		);
 	});
 });

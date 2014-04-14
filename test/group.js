@@ -5,7 +5,7 @@ var Step = require('../lib/twoStep').Step,
 	fs = require('fs'),
 	helpers = require('./helpers');
 
-describe('group test', function() {
+describe('Group test', function() {
 
 	it('should check group', function(done) {
 		var files = fs.readdirSync(__dirname);
@@ -54,7 +54,7 @@ describe('group test', function() {
 		);
 	});
 
-	it('Check that group returns empty array if it wasnt called', function(done) {
+	it('returns empty array if it wasnt called', function(done) {
 		Step(
 			function() {
 				// create group

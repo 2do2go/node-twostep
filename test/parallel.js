@@ -7,7 +7,7 @@ var Step = require('../lib/twoStep').Step,
 	etcFileName = '/etc/passwd',
 	etcText = fs.readFileSync(etcFileName, 'utf8');
 
-describe('parallel call usage', function() {
+describe('Parallel call usage', function() {
 
 	it('should execute parallel and pass values to correct slots', function(done) {
 		Step(
