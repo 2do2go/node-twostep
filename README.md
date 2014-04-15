@@ -131,6 +131,20 @@ Steppy(
 
 ## API
 
+### Step(step1, step2, stepN...)
+
+Steps container accepts functions and executes them in series. If error is
+occured inside step it will be passed to the next step as first argument. First
+argument of the step is always an error (falsy if no error), subsequent
+arguments - values passed to the reserved slots (created via `this.pass()`,
+`this.slot()` or `this.makeGroup()`) of previous step in the order the slots
+were reserved.
+
+### Steppy(step1, step2, stepN...)
+
+Same steps container as `Step` but it also automatically wraps every single step
+with error check and calls the last step if error occurs.
+
 ### Methods which can be called inside each step
 
 #### this.slot()
@@ -150,19 +164,6 @@ into the reserved slot as a single array. `pass`, `slot` methods can be called
 for created group. If group methods were not called empty array will be passed
 into reserved slot.
 
-### Step(step1, step2, stepN...)
-
-Steps container accepts functions and executes them in series. If error is
-occured inside step it will be passed to the next step as first argument. First
-argument of the step is always an error (falsy if no error), subsequent
-arguments - values passed to the reserved slots (created via `this.pass()`,
-`this.slot()` or `this.makeGroup()`) of previous step in the order the slots
-were reserved.
-
-### Steppy(step1, step2, stepN...)
-
-Same steps container as `Step` but it also automatically wraps every single step
-with error check and calls the last step if error occurs.
 
 
 ## Tests
