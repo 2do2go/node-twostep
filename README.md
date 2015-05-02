@@ -19,6 +19,8 @@ last step)
 * super battle-tested (we ubiquitously use twostep in a big project
 (50 000+ lines of code))
 
+[![Build Status](https://travis-ci.org/2do2go/node-twostep.svg?branch=master)](https://travis-ci.org/2do2go/node-twostep)
+
 
 ## Installation
 
