@@ -71,4 +71,24 @@ describe('Group test', function() {
 		);
 	});
 
+	it('should return when group slot is called multiple times', function(done) {
+		Step(
+			function() {
+				var group = this.makeGroup();
+
+				var slot1 = group.slot();
+				var slot2 = group.slot();
+
+				// call first slot twice
+				slot1(null, 1);
+				slot1(null, 2);
+				slot2(null, 3);
+			},
+			function(err, data) {
+				expect(data).to.be.eql([1, 3]);
+				this.pass(null);
+			},
+			done
+		);
+	});
 });

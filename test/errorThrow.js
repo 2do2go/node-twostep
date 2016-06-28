@@ -50,7 +50,7 @@ describe('Step error handling', function() {
 				var callback = this.slot();
 				callback(error);
 				var secondCallback = this.slot();
-				callback(secondError);
+				secondCallback(secondError);
 			},
 			function(err) {
 				expect(err).to.be(error);
